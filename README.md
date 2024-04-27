@@ -76,3 +76,8 @@ npx wrangler ai models --json | jq '
   .ga |= sort
 '
 ```
+
+```
+本地启动：npm run dev
+部署cf：npm run deploy
+```

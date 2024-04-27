@@ -36,6 +36,7 @@ const models = {
     "@hf/thebloke/openchat_3.5-awq",
     "@hf/thebloke/openhermes-2.5-mistral-7b-awq",
     "@hf/thebloke/zephyr-7b-beta-awq",
+    "@cf/runwayml/stable-diffusion-v1-5-img2img"
   ],
 };
 
