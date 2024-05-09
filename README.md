@@ -78,6 +78,8 @@ npx wrangler ai models --json | jq '
 ```
 
 ```
+如何没登录先登录：npx wrangler login
 本地启动：npm run dev
 部署cf：npm run deploy
+权限问题在命令前加上：sudo 
 ```
