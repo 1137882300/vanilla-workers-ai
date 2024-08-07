@@ -3,6 +3,7 @@ const models = {
         "@cf/meta/llama-2-7b-chat-int8",
         "@cf/meta/llama-2-7b-chat-fp16",
         "@cf/mistral/mistral-7b-instruct-v0.1",
+        "@cf/meta/llama-3.1-8b-instruct",
         "@cf/meta/m2m100-1.2b",
     ],
     beta: [
