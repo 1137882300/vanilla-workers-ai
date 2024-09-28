@@ -555,8 +555,6 @@ video {
 }
 
 .message-content {
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
   max-width: 70%;
   overflow-wrap: break-word;
   border-radius: 1rem;
@@ -565,9 +563,9 @@ video {
 
 .message-user .message-content {
   --tw-bg-opacity: 1;
-  background-color: rgb(59 130 246 / var(--tw-bg-opacity));
+  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
   --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
+  color: rgb(31 41 55 / var(--tw-text-opacity));
 }
 
 .message-assistant .message-content {
@@ -578,30 +576,6 @@ video {
   --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}
-
-.message-avatar {
-  display: flex;
-  height: 2rem;
-  width: 2rem;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  border-radius: 9999px;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
-.message-user .message-avatar {
-  --tw-bg-opacity: 1;
-  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
-}
-
-.message-assistant .message-avatar {
-  --tw-bg-opacity: 1;
-  background-color: rgb(156 163 175 / var(--tw-bg-opacity));
 }
 
 .message-model {
@@ -818,32 +792,60 @@ video {
   overflow-y: auto;
 }
 
-/* 其他样式保持不变 */
-
 #chat-form {
   transition: box-shadow 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
 }
 
 #chat-form:focus-within {
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 0 2px rgba(120, 150, 127, 0.5);
 }
 
 #message-input {
   min-height: 24px;
   max-height: 200px;
+  width: calc(100% - 250px);
+  /* 调整输入框宽度，为发送按钮留出空间 */
+  resize: none;
+  background-color: transparent;
+  padding: 0.5rem;
 }
 
-/* 新增样式 */
+#message-input:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+#chat-form button[type="submit"] {
+  margin-left: 0.5rem;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
+  padding: 0.5rem;
+  font-weight: 700;
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#chat-form button[type="submit"]:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(29 78 216 / var(--tw-bg-opacity));
+}
 
 @media (min-width: 769px) {
   .chat-container {
     width: calc(100% - 20rem);
-    /* 20rem 是设置面板的宽度 */
   }
 
   #settings-panel {
     display: block !important;
-    /* 确保在桌面端始终显示 */
     position: fixed;
     top: 0;
     right: 0;

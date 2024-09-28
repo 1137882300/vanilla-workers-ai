@@ -92,10 +92,6 @@ function createChatMessageElement(msg) {
     const div = document.createElement("div");
     div.className = `message-${msg.role}`;
     
-    const avatar = document.createElement("div");
-    avatar.className = "message-avatar";
-    avatar.innerHTML = msg.role === "user" ? "👤" : "🤖";
-
     const contentDiv = document.createElement("div");
     contentDiv.className = "message-content";
 
@@ -117,7 +113,6 @@ function createChatMessageElement(msg) {
         contentDiv.appendChild(userMessage);
     }
     
-    div.appendChild(avatar);
     div.appendChild(contentDiv);
     
     return div;

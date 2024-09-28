@@ -4,28 +4,19 @@
 
 @layer components {
   .message-user {
-    @apply flex flex-row-reverse items-center mb-4;
+    @apply flex flex-row-reverse items-start mb-4;
   }
   .message-assistant {
-    @apply flex flex-row items-center mb-4;
+    @apply flex flex-row items-start mb-4;
   }
   .message-content {
-    @apply max-w-[70%] rounded-2xl p-3 break-words mx-2;
+    @apply max-w-[70%] rounded-2xl p-3 break-words;
   }
   .message-user .message-content {
-    @apply bg-blue-500 text-white;
+    @apply bg-gray-100 text-gray-800;
   }
   .message-assistant .message-content {
     @apply bg-white text-gray-800 shadow;
-  }
-  .message-avatar {
-    @apply w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-white text-sm;
-  }
-  .message-user .message-avatar {
-    @apply bg-blue-600;
-  }
-  .message-assistant .message-avatar {
-    @apply bg-gray-400;
   }
   .message-model {
     @apply text-xs text-gray-500 mt-1;
@@ -38,29 +29,33 @@
   overflow-y: auto;
 }
 
-/* 其他样式保持不变 */
-
 #chat-form {
   transition: box-shadow 0.3s ease-in-out;
+  @apply flex items-center;
 }
 
 #chat-form:focus-within {
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 0 2px rgba(120, 150, 127, 0.5);
 }
 
 #message-input {
   min-height: 24px;
   max-height: 200px;
+  width: calc(100% - 250px); /* 调整输入框宽度，为发送按钮留出空间 */
+  @apply p-2 bg-transparent focus:outline-none resize-none;
 }
 
-/* 新增样式 */
+#chat-form button[type="submit"] {
+  @apply ml-2 bg-blue-600 hover:bg-blue-700 text-white font-bold p-2 rounded-full transition duration-300 ease-in-out flex-shrink-0;
+}
+
 @media (min-width: 769px) {
   .chat-container {
-    width: calc(100% - 20rem); /* 20rem 是设置面板的宽度 */
+    width: calc(100% - 20rem);
   }
   
   #settings-panel {
-    display: block !important; /* 确保在桌面端始终显示 */
+    display: block !important;
     position: fixed;
     top: 0;
     right: 0;
