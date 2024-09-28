@@ -5,7 +5,8 @@
     "moduleResolution": "Bundler",
     "strict": true,
     "lib": [
-      "ESNext"
+      "ESNext",
+      "DOM"
     ],
     "types": [
       "@cloudflare/workers-types",
@@ -13,10 +14,15 @@
     ],
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
-    "ignoreWarnings": true,
-    "ignoreSyntaxErrors": true,
-    "ts-ignore": true,
     "allowJs": true,
-    "checkJs": false
+    "checkJs": false,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "ignoreDeprecations": "5.0",
+    "forceConsistentCasingInFileNames": true
   },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

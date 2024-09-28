@@ -132,11 +132,18 @@ app.post("/api/chat", async (c) => {
     .pipeThrough(new EventSourceParserStream());
 
   return streamText(c, async (stream) => {
-    for await (const msg of tokenStream) {
-      if (msg.data !== "[DONE]") {
-        const data = JSON.parse(msg.data);
-        stream.write(data.response);
+    const reader = tokenStream.getReader();
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        if (value.data !== "[DONE]") {
+          const data = JSON.parse(value.data);
+          stream.write(data.response);
+        }
       }
+    } finally {
+      reader.releaseLock();
     }
   });
 });
