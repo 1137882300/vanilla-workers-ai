@@ -91,23 +91,35 @@ domReady(() => {
 function createChatMessageElement(msg) {
     const div = document.createElement("div");
     div.className = `message-${msg.role}`;
+    
+    const avatar = document.createElement("div");
+    avatar.className = "message-avatar";
+    avatar.innerHTML = msg.role === "user" ? "👤" : "🤖";
+
+    const contentDiv = document.createElement("div");
+    contentDiv.className = "message-content";
+
     if (msg.role === "assistant") {
         const response = document.createElement("div");
         response.className = "response";
         const html = md.render(msg.content);
         response.innerHTML = html;
-        div.appendChild(response);
-        highlightCode(div);
+        contentDiv.appendChild(response);
+        highlightCode(contentDiv);
         const modelDisplay = document.createElement("p");
         modelDisplay.className = "message-model";
         const settings = retrieveChatSettings();
         modelDisplay.innerText = settings.model;
-        div.appendChild(modelDisplay);
+        contentDiv.appendChild(modelDisplay);
     } else {
         const userMessage = document.createElement("p");
         userMessage.innerText = msg.content;
-        div.appendChild(userMessage);
+        contentDiv.appendChild(userMessage);
     }
+    
+    div.appendChild(avatar);
+    div.appendChild(contentDiv);
+    
     return div;
 }
 
@@ -147,9 +159,11 @@ function renderPreviousMessages() {
     console.log("Rendering previous messages");
     const chatHistory = document.getElementById("chat-history");
     const messages = retrieveMessages();
+    chatHistory.innerHTML = ''; // 清空聊天历史
     for (const msg of messages) {
-        chatHistory.prepend(createChatMessageElement(msg));
+        chatHistory.appendChild(createChatMessageElement(msg));
     }
+    chatHistory.scrollTop = chatHistory.scrollHeight;
 }
 
 async function sendMessage() {
@@ -162,7 +176,7 @@ async function sendMessage() {
 
     // Create user message element
     const userMsg = {role: "user", content: input.value};
-    chatHistory.prepend(createChatMessageElement(userMsg));
+    chatHistory.appendChild(createChatMessageElement(userMsg));
 
     const messages = retrieveMessages();
     messages.push(userMsg);
@@ -180,8 +194,7 @@ async function sendMessage() {
 
     let assistantMsg = {role: "assistant", content: ""};
     const assistantMessage = createChatMessageElement(assistantMsg);
-    chatHistory.prepend(assistantMessage);
-    const assistantResponse = assistantMessage.firstChild;
+    chatHistory.appendChild(assistantMessage);
 
     // Scroll to the latest message
     chatHistory.scrollTop = chatHistory.scrollHeight;
@@ -196,12 +209,14 @@ async function sendMessage() {
         assistantMsg.content += value;
         // Continually render the markdown => HTML
         // Do not wipe out the model display
-        assistantResponse.innerHTML = md.render(assistantMsg.content);
+        assistantMessage.querySelector('.response').innerHTML = md.render(assistantMsg.content);
+        chatHistory.scrollTop = chatHistory.scrollHeight;
     }
     // Highlight code on completion
     highlightCode(assistantMessage);
     messages.push(assistantMsg);
     storeMessages(messages);
+    chatHistory.scrollTop = chatHistory.scrollHeight;
 }
 
 function applyChatSettingChanges() {
@@ -253,3 +268,31 @@ document
         e.preventDefault();
         applyChatSettingChanges();
     });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const settingsPanel = document.getElementById('settings-panel');
+    const toggleButton = document.getElementById('toggle-settings');
+    const closeButton = document.getElementById('close-settings');
+
+    toggleButton.addEventListener('click', () => {
+        settingsPanel.classList.add('show');
+    });
+
+    closeButton.addEventListener('click', () => {
+        settingsPanel.classList.remove('show');
+    });
+
+    // 在小屏幕上，点击设置面板外的区域时关闭设置
+    document.addEventListener('click', (event) => {
+        if (window.innerWidth <= 768 && !settingsPanel.contains(event.target) && event.target !== toggleButton) {
+            settingsPanel.classList.remove('show');
+        }
+    });
+
+    // 添加输入框自动调整高度的功能
+    const messageInput = document.getElementById('message-input');
+    messageInput.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+    });
+});

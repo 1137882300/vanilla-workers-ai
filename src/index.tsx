@@ -14,91 +14,77 @@ app.use(renderer);
 app.get("/", (c) => {
   return c.render(
     <>
-      <div className="flex h-screen bg-gray-200">
-        <div
-          className="flex-grow flex flex-col"
-          style="max-width: calc(100% - 20rem)"
-        >
+      <div className="flex h-screen bg-gray-100">
+        {/* 左侧聊天窗口 */}
+        <div className="flex-grow flex flex-col chat-container"> {/* 添加 chat-container 类 */}
+          <header className="bg-blue-600 text-white p-4 flex justify-between items-center">
+            <h1 className="text-2xl font-bold">AI Chat Assistant</h1>
+            <button
+              id="toggle-settings"
+              className="md:hidden bg-blue-500 text-white p-2 rounded-full"
+            >
+              ⚙️
+            </button>
+          </header>
           <div
             id="chat-history"
-            className="flex-1 overflow-y-auto p-6 space-y-4 bg-white flex flex-col-reverse messages-container"
+            className="flex-grow bg-gray-100 rounded-lg p-4 mb-4 overflow-y-auto flex flex-col"
           ></div>
-          <div className="px-6 py-2 bg-white shadow-up">
-            <form className="flex items-center" id="chat-form">
-              <textarea
-                id="message-input"
-                className="flex-grow m-2 p-2 border border-chat-border rounded shadow-sm placeholder-chat-placeholder"
-                placeholder="Type a message..."
-              ></textarea>
-              <button
-                type="submit"
-                className="m-2 px-4 py-2 bg-chat-button text-black rounded hover:bg-gray-300"
-              >
-                Send
-              </button>
-            </form>
-            <div className="text-xs text-gray-500 mt-2">
-              <p className="model-display">-</p>
-              <input
-                type="hidden"
-                class="message-user message-assistant message-model"
-              />
-            </div>
-          </div>
-        </div>
-        <div className="w-80 bg-chat-settings p-6 shadow-xl flex flex-col justify-between">
-          <div>
-            <div className="mb-4">
-              <h2 className="text-xl font-semibold">Chat Settings</h2>
-              <p className="text-sm text-chat-helpertext mt-1">
-                Try out different models and configurations for your chat
-                application
-              </p>
-            </div>
-            <form>
-              <div className="mb-4">
-                <label className="block text-black text-sm font-bold mb-2">
-                  Model
-                </label>
-                <select
-                  id="model-select"
-                  className="border border-chat-border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
-                ></select>
-              </div>
-              <div className="mb-4">
-                <label className="block text-black text-sm font-bold mb-2">
-                  System Message
-                </label>
-                <p className="text-sm text-chat-helpertext mb-2">
-                  Guides the tone of the response
-                </p>
-                <textarea
-                  id="system-message"
-                  className="border border-chat-border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
-                  placeholder="Enter system message..."
-                ></textarea>
-              </div>
-              <button
-                id="apply-chat-settings"
-                className="w-full px-4 py-2 bg-chat-apply text-white rounded hover:bg-gray-800 focus:outline-none focus:shadow-outline"
-              >
-                Apply Changes
-              </button>
-            </form>
-          </div>
-          <div className="mt-4 text-center text-sm text-gray-500 flex items-center justify-center">
-            <span className="mr-2 pt-2">Powered by</span>
-            <a
-              href="https://developers.cloudflare.com/workers-ai/"
-              target="_blank"
+          <form id="chat-form" className="flex items-center bg-white rounded-full shadow-lg p-2">
+            <textarea
+              id="message-input"
+              className="flex-grow p-2 bg-transparent focus:outline-none resize-none"
+              placeholder="Type your message here..."
+              rows={1}
+            ></textarea>
+            <button
+              type="submit"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-bold p-2 rounded-full transition duration-300 ease-in-out"
             >
-              <img
-                src="/static/cloudflare-logo.png"
-                alt="Cloudflare Logo"
-                className="h-6 inline"
-              />
-            </a>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+              </svg>
+            </button>
+          </form>
+          <p className="model-display text-sm text-gray-500 mt-2">-</p>
+        </div>
+
+        {/* 右侧设置面板 */}
+        <div id="settings-panel" className="w-80 bg-white shadow-lg p-6 overflow-y-auto md:block">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-semibold">Chat Settings</h2>
+            <button id="close-settings" className="md:hidden text-gray-500 hover:text-gray-700">
+              ✕
+            </button>
           </div>
+          <form>
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="model-select">
+                Model
+              </label>
+              <select
+                id="model-select"
+                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              ></select>
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="system-message">
+                System Message
+              </label>
+              <textarea
+                id="system-message"
+                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter system message..."
+                rows={4}
+              ></textarea>
+            </div>
+            <button
+              id="apply-chat-settings"
+              className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out"
+            >
+              Apply Changes
+            </button>
+          </form>
         </div>
       </div>
       <script src="/static/script.js"></script>

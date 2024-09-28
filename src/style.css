@@ -4,12 +4,98 @@
 
 @layer components {
   .message-user {
-    @apply text-left text-black w-full;
+    @apply flex flex-row-reverse items-center mb-4;
   }
   .message-assistant {
-    @apply bg-chat-bubble p-4 rounded-lg text-black shadow mb-2 w-full;
+    @apply flex flex-row items-center mb-4;
+  }
+  .message-content {
+    @apply max-w-[70%] rounded-2xl p-3 break-words mx-2;
+  }
+  .message-user .message-content {
+    @apply bg-blue-500 text-white;
+  }
+  .message-assistant .message-content {
+    @apply bg-white text-gray-800 shadow;
+  }
+  .message-avatar {
+    @apply w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-white text-sm;
+  }
+  .message-user .message-avatar {
+    @apply bg-blue-600;
+  }
+  .message-assistant .message-avatar {
+    @apply bg-gray-400;
   }
   .message-model {
-    @apply text-xs text-gray-500;
+    @apply text-xs text-gray-500 mt-1;
   }
 }
+
+#chat-history {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* 其他样式保持不变 */
+
+#chat-form {
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+#chat-form:focus-within {
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+#message-input {
+  min-height: 24px;
+  max-height: 200px;
+}
+
+/* 新增样式 */
+@media (min-width: 769px) {
+  .chat-container {
+    width: calc(100% - 20rem); /* 20rem 是设置面板的宽度 */
+  }
+  
+  #settings-panel {
+    display: block !important; /* 确保在桌面端始终显示 */
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 20rem;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+
+  .chat-container {
+    width: 100%;
+  }
+
+  #settings-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 100%;
+    z-index: 50;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  #settings-panel.show {
+    transform: translateX(0);
+  }
+}
+
+/* 删除或注释掉这个样式 */
+/* #chat-history > div:first-child {
+    margin-bottom: auto;
+} */
